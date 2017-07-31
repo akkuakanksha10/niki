@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration SYSTEM 
+    "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory>
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="connection.url">jdbc:mysql://192.168.0.102:3306/nikitasha_vecta</property>
+        <property name="connection.username">root</property>
+        <property name="connection.password">vecta</property>
+
+         <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+        <property name="current_session_context_class">thread</property>
+        <property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
+        <property name="show_sql">true</property>
+        <property name="hbm2ddl.auto">validate</property>
+
+        <mapping class ="com.model.ItemType" />
+        <mapping class ="com.model.Item" />
+        <mapping class ="com.model.ItemDetail" />
+        <mapping class ="com.model.ItemSize" />
+        <mapping class ="com.model.Employee" />
+        <mapping class ="com.model.EmployeeRoleMapping" />
+        <mapping class ="com.model.FacebookLike" />
+        <mapping class ="com.model.PurchaseOrder" />
+        <mapping class ="com.model.PurchaseOrderDetail" />
+         <mapping class ="com.model.User" />
+          <mapping class ="com.model.Vendor" />
+           <mapping class ="com.model.Uom" />
+            <mapping class ="com.model.Stock" />
+             <mapping class ="com.model.Rating" />
+              <mapping class ="com.model.SalesBillDetail" />
+               <mapping class ="com.model.SalesBill" />
+               <mapping class ="com.model.Seq" />
+    </session-factory>
+</hibernate-configuration>
