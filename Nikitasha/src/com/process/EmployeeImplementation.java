@@ -12,38 +12,58 @@ import com.dao.SeqController;
 import com.model.Employee;
 import com.model.EmployeeRoleMapping;
 import com.model.FacebookLike;
+import com.model.Rating;
 import com.model.Seq;
+import com.model.User;
+import com.model.Vendor;
 ;
 
 public class EmployeeImplementation extends RestFactory{
-	private RestFactory factory;
 	private SeqController controller;
+	
+	
+	
+	public SeqController getController() {
+		if(controller==null){
+			controller=new SeqController();
+		}
+		return controller;
+	}
+	public void setController(SeqController controller) {
+		this.controller = controller;
+	}
+	
 	
 	public Employee saveEmployee(Employee employee){
 		try {
 			Seq s=controller.findEmployeeSequence();
-			employee.setEmpId(s.getKey());
+			String strq=s.getKey();
+			employee.setEmpId(strq);
 			s.increment();
-			factory.update(s);
-			factory.save(employee);
+			update(s);
+			save(employee);
+			return employee;
 		} catch (Exception e) {
 			e.printStackTrace();
+
+			return null;
 		}
 		
-		return employee;
 	}
 	public Employee updateEmployee(Employee employee){
 		try {
-			factory.update(employee);
+			update(employee);
+
+			return employee;
 		} catch (Exception e) {
 			e.printStackTrace();
+			return null;
 		}
 		
-		return employee;
 	}
 	public List<Employee> getEmployees(){
 		try {
-			List<Employee> employeeList=(List<Employee>)factory.getObjectList(Employee.class);
+			List<Employee> employeeList=(List<Employee>)getObjectList(Employee.class);
 			return employeeList;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -56,29 +76,34 @@ public class EmployeeImplementation extends RestFactory{
 	
 	public EmployeeRoleMapping saveEmployeeRoleMapping(EmployeeRoleMapping employeeRoleMapping){
 		try {
-			Seq s=controller.findEmployeeRoleMappingSequence();
-			employeeRoleMapping.setApplicationRoleId(s.getKey());
+			Seq s=getController().findEmployeeRoleMappingSequence();
+			String strq=s.getKey();
+			employeeRoleMapping.setApplicationRoleId(strq);
 			s.increment();
-			factory.update(s);
-			factory.save(employeeRoleMapping);
+			update(s);
+			save(employeeRoleMapping);
+			return employeeRoleMapping;
 		} catch (Exception e) {
 			e.printStackTrace();
+			return null;
 		}
 		
-		return employeeRoleMapping;
+		
 	}
 	public EmployeeRoleMapping updateEmployeeRoleMapping(EmployeeRoleMapping employeeRoleMapping){
 		try {
-			factory.update(employeeRoleMapping);
+			update(employeeRoleMapping);
+			return employeeRoleMapping;
 		} catch (Exception e) {
 			e.printStackTrace();
+			return null;
 		}
 		
-		return employeeRoleMapping;
+		
 	}
 	public List<EmployeeRoleMapping> getEmployeeRoles(){
 		try {
-			List<EmployeeRoleMapping> employeeRoleList=(List<EmployeeRoleMapping>)factory.getObjectList(EmployeeRoleMapping.class);
+			List<EmployeeRoleMapping> employeeRoleList=(List<EmployeeRoleMapping>)getObjectList(EmployeeRoleMapping.class);
 			return employeeRoleList;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -89,34 +114,74 @@ public class EmployeeImplementation extends RestFactory{
 	
 	/******************************************* USER *******************************************************/
 	
+	public User saveUser(User user){
+		try {
+			Seq s=getController().findUserSequence();
+			String strq=s.getKey();
+			user.setUserId(strq);
+			update(s);
+			save(user);
+			return user;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+		
+	}
+	public User updateUser(User user){
+		try {
+			update(user);
+			return user;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public List<User> getUsers(){
+		try {
+			List<User> userList=(List<User>)getObjectList(User.class);
+			return userList;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+	}
+	
 	
 	/*********************************************Facebook Like *********************************************/
 	
 	public FacebookLike saveFacebookLike(FacebookLike facebookLike){
 		try {
-			Seq s=controller.findFacebookLikeSequence();
-			facebookLike.setFacebookLikeId(s.getKey());
+			Seq s=getController().findFacebookLikeSequence();
+			String strq=s.getKey();
+			facebookLike.setFacebookLikeId(strq);
 			s.increment();
-			factory.update(s);
-			factory.save(facebookLike);
+			update(s);
+			save(facebookLike);
+			return facebookLike;
 		} catch (Exception e) {
 			e.printStackTrace();
+			return null;
 		}
 		
-		return facebookLike;
+		
 	}
 	public FacebookLike updateFacebookLike(FacebookLike facebookLike){
 		try {
-			factory.update(facebookLike);
+			update(facebookLike);
+			return facebookLike;
 		} catch (Exception e) {
 			e.printStackTrace();
+			return null;
 		}
 		
-		return facebookLike;
 	}
 	public List<FacebookLike> getFacebookLikes(){
 		try {
-			List<FacebookLike> fbLikeList=(List<FacebookLike>)factory.getObjectList(FacebookLike.class);
+			List<FacebookLike> fbLikeList=(List<FacebookLike>)getObjectList(FacebookLike.class);
 			return fbLikeList;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -127,5 +192,41 @@ public class EmployeeImplementation extends RestFactory{
 	
 	
 	/**********************************************Rating ****************************************************/
+	
+	public Rating saveRating(Rating rating){
+		try {
+			Seq s=getController().findUserSequence();
+			String strq=s.getKey();
+			rating.setRateId(strq);
+			update(s);
+			save(rating);
+			return rating;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+		
+	}
+	public Rating updateRating(Rating rating){
+		try {
+			update(rating);
+			return rating;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public List<Rating> getRatings(){
+		try {
+			List<Rating> ratingList=(List<Rating>)getObjectList(Rating.class);
+			return ratingList;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+	}
 	
 }

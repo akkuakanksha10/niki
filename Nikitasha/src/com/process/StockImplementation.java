@@ -10,6 +10,7 @@ import com.model.SalesBill;
 import com.model.SalesBillDetail;
 import com.model.Seq;
 import com.model.Uom;
+import com.model.Vendor;
 
 public class StockImplementation extends RestFactory{
  private SeqController controller;
@@ -197,7 +198,7 @@ public void setController(SeqController controller) {
 			return poDetail;
 		} catch (Exception e) {
 			e.printStackTrace();
-			return poDetail;
+			return null;
 		}
 		
 		
@@ -225,5 +226,40 @@ public void setController(SeqController controller) {
 	
 	/******************************Vendor ******************************************************/
 	
+	public Vendor saveVendor(Vendor vendor){
+		try {
+			Seq s=getController().findVendorSequence();
+			String strq=s.getKey();
+			vendor.setVendorId(strq);
+			update(s);
+			save(vendor);
+			return vendor;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+		
+	}
+	public Vendor updateVendor(Vendor vendor){
+		try {
+			update(vendor);
+			return vendor;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public List<Vendor> getVendors(){
+		try {
+			List<Vendor> vendorList=(List<Vendor>)getObjectList(Vendor.class);
+			return vendorList;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+	}
 	
 }
