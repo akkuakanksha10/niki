@@ -31,7 +31,7 @@ k+
 
                                         <button type="submit" class="btn width-150 btn-primary">Submit</button>
 
-                                        <button type="submit" class="btn width-150 btn-primary"></button>
+                                        
                                  <button type="button" class="btn btn-default">Cancel</button>
                                     </div>
                                 </div>

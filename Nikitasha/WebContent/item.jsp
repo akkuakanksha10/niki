@@ -1,3 +1,6 @@
+<%@page import="com.model.ItemType"%>
+<%@page import="com.process.ItemImplementation"%>
+<%@page import="java.util.List"%>
 <%@ include file = "/META-INF/web/version_html/Layout/header.jsp" %>
 <%@ include file = "/META-INF/web/version_html/Layout/subheader.jsp" %>
 k+
@@ -20,19 +23,28 @@ k+
                         
                         <div class="form-group row">
 				<div class="col-md-3">
+				<%
+                                       ItemImplementation itemImplementation=new ItemImplementation();
+                                       List<ItemType> itemTypes=itemImplementation.getItemTypes();
+                                       
+                                       %>        
 					<label class="form-control-label" for="l0">Select Item Type</label>
 				</div>
 				<div class="col-md-9">
 					<div class="form-group row">
-                                
+
+                        
                                 <div class="col-md-9">
-                                    <select class="form-control" id="l13">
-                                        <option>Option 1</option>
-                                        <option>Option 2</option>
-                                        <option>Option 3</option>
-                                        <option>Option 4</option>
-                                        <option>Option 5</option>
-                                    </select>
+                                    <select class="form-control" id="l13" name="itemType">
+                                       
+                                       
+									<option >Select Item</option>
+										  <c:forEach items="${itemTypes}" var="type">
+										    <option value="${type}" label="${type}">  
+										    </option>
+										  </c:forEach>
+
+                                    
                                 </div>
                             </div>
 				</div>
