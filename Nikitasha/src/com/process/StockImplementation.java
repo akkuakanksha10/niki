@@ -6,7 +6,10 @@ import com.dao.RestFactory;
 import com.dao.SeqController;
 import com.model.PurchaseOrder;
 import com.model.PurchaseOrderDetail;
+import com.model.SalesBill;
+import com.model.SalesBillDetail;
 import com.model.Seq;
+import com.model.Uom;
 
 public class StockImplementation extends RestFactory{
  private SeqController controller;
@@ -22,8 +25,125 @@ public void setController(SeqController controller) {
 	this.controller = controller;
 }
 	/*************************** UOM ******************************************************/
+	
+	public Uom saveUom(Uom  uom){
+		try {
+			Seq s=controller.findUomSequence();
+			String strq=s.getKey();
+			uom.setUomId(strq);
+			s.increment();
+			update(s);
+			save(uom);
+			return uom;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public Uom updateUom(Uom uom){
+		try {
+			update(uom);
+			return uom;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public List<Uom> getUoms(){
+		try {
+			List<Uom> uomList=(List<Uom>)getObjectList(Uom.class);
+			return uomList;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+	}
+	
+	
 	/*************************** Sales Bill ******************************************************/
+	
+	public SalesBill saveSalesBill(SalesBill salesBill){
+		try {
+			Seq s=controller.findPurchaseOrderSequence();
+			String strq=s.getKey();
+			salesBill.setSalesBillId(strq);
+			s.increment();
+			update(s);
+			save(salesBill);
+			return salesBill;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+		
+	}
+	public SalesBill updateSalesBill(SalesBill salesBill){
+		try {
+			update(salesBill);
+			return salesBill;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+		
+	}
+	public List<SalesBill> getSalesBills(){
+		try {
+			List<SalesBill> soList=(List<SalesBill>)getObjectList(SalesBill.class);
+			return soList;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+	}
+	
 	/*************************** Sales Bill Detail ******************************************************/
+	
+	public SalesBillDetail saveSoDetail(SalesBillDetail soDetail){
+		try {
+			Seq s=getController().findSalesBillDetailSequence();
+			String strq=s.getKey();
+			soDetail.setSalesBillDetailId(strq);
+			s.increment();
+			update(s);
+			save(soDetail);
+			return soDetail;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+		
+	}
+	public SalesBillDetail updateSoDetail(SalesBillDetail soDetail){
+		try {
+			update(soDetail);
+			return soDetail;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+		
+	}
+	public List<SalesBillDetail> getSoDetails(){
+		try {
+			List<SalesBillDetail> soDetailList=(List<SalesBillDetail>)getObjectList(SalesBillDetail.class);
+			return soDetailList;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+	}
+	
+	
 	/******************************Purchase Order ******************************************************/
 	
 	public PurchaseOrder savePurchaseOrder(PurchaseOrder po){
