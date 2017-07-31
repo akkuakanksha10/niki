@@ -11,6 +11,7 @@ import com.model.EmployeeRoleMapping;
 import com.model.FacebookLike;
 import com.model.Item;
 import com.model.ItemDetail;
+import com.model.ItemSize;
 import com.model.ItemType;
 import com.model.PurchaseOrder;
 import com.model.PurchaseOrderDetail;
@@ -82,6 +83,10 @@ public class SeqController {
 	}
 	public Seq findItemTypeSequence()throws Exception{
 		return findSequenceForClass(ItemType.class);
+		
+	}
+	public Seq findItemSizeSequence()throws Exception{
+		return findSequenceForClass(ItemSize.class);
 		
 	}
 	public Seq findPurchaseOrderSequence()throws Exception{

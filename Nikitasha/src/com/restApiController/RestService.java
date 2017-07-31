@@ -13,21 +13,22 @@ import org.json.JSONObject;
 import com.model.Item;
 import com.model.ItemType;
 import com.process.ItemImplementation;
-import com.process.ItemTypeImplementation;
+
 
 @Path("/RestService")
 public class RestService {
-ItemTypeImplementation itemTypeImpl;
+ItemImplementation itemImpl;
 
 	
-public ItemTypeImplementation getItemTypeImpl() {
-	if(itemTypeImpl==null){
-		itemTypeImpl=new ItemTypeImplementation();
+
+public ItemImplementation getItemImpl() {
+	if(itemImpl==null){
+		itemImpl=new ItemImplementation();
 	}
-	return itemTypeImpl;
+	return itemImpl;
 }
-public void setItemTypeImpl(ItemTypeImplementation itemTypeImpl) {
-	this.itemTypeImpl = itemTypeImpl;
+public void setItemImpl(ItemImplementation itemImpl) {
+	this.itemImpl = itemImpl;
 }
 @GET
 @Path("/getItems")
@@ -54,7 +55,7 @@ public String getItems(){
 public String saveItemType(@FormParam("itemType") String itemType){
 	ItemType type=new ItemType();
 	type.setItemName(itemType);
-	getItemTypeImpl().saveItemType(type);
+	getItemImpl().saveItemType(type);
 	return ""+itemType;
 
 }
