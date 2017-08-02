@@ -1,5 +1,7 @@
 package com.restApiController;
 
+import java.util.List;
+
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -8,6 +10,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.model.Item;
@@ -58,5 +61,32 @@ public String saveItemType(@FormParam("itemType") String itemType){
 	getItemImpl().saveItemType(type);
 	return ""+itemType;
 
+}
+
+/*
+ *Method to get Item category with image pathg 
+ */
+@GET
+@Path("/getItemCategory")
+@Produces(javax.ws.rs.core.MediaType.TEXT_PLAIN)
+public String getItemCategory(){
+	
+	ItemImplementation implementation=new ItemImplementation();
+	Object o= implementation.getItemCategory();
+	
+	
+	return o.toString();
+
+}
+/*
+ * get All Itemobject
+ */
+@GET
+@Path("/getItemDetails")
+@Produces(javax.ws.rs.core.MediaType.TEXT_PLAIN)
+public String getItemDetails(@QueryParam("itemtype_id") String itemtype_id){
+	ItemImplementation implementation=new ItemImplementation();
+	JSONArray jsonArray=implementation.findItemTypeById(itemtype_id);
+	return jsonArray.toString();
 }
 }

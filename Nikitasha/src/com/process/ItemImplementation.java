@@ -2,12 +2,22 @@ package com.process;
 
 import java.util.List;
 
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import com.dao.RestFactory;
 import com.dao.SeqController;
+import com.db.SingletonDBConnection;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.model.FacebookLike;
 import com.model.Item;
 import com.model.ItemDetail;
 import com.model.ItemSize;
 import com.model.ItemType;
+import com.model.Rating;
 import com.model.Seq;
 
 public class ItemImplementation extends RestFactory{
@@ -80,6 +90,17 @@ public class ItemImplementation extends RestFactory{
 			return null;
 		}
 	}
+	/*
+	 * get Item Details
+	 */
+	public Object getItemCategory() {
+		Session session=SingletonDBConnection.getSessionFactory().openSession();
+		String hql = "SELECT it.itemTypeId,it.itemName,id.image1 FROM ItemType it,ItemDetail id";
+		Query query = session.createQuery(hql);
+		List results = query.list();
+		
+		return results;
+	}
 	
 	/***************************************** Item Detail ***********************************************/
 	
@@ -95,9 +116,83 @@ public class ItemImplementation extends RestFactory{
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
+		}	
+	}
+	
+	/*
+	 * 
+	 */
+	public JSONArray findItemTypeById(String id){
+		JSONArray jsonArrayOfItemById=new JSONArray();
+		JSONObject parentObject=new JSONObject();
+		
+		String typeid="ITY-2017-13";
+		Session session=SingletonDBConnection.getSessionFactory().openSession();
+		Query query=session.createQuery("select it from ItemType it where it.itemTypeId= :typeid");
+		query.setParameter("typeid", typeid);
+		ItemType itemType=(ItemType)query.uniqueResult();
+		
+		try{
+			
+			List<Item> list=itemType.getItems();
+			
+			for(Item items:list)
+			{
+				JSONObject jsonItem=new JSONObject();
+				jsonItem.put("item_name", items.getName());	
+				List<ItemDetail> itemDetailsList=items.getItemDetails();
+				
+				for(ItemDetail idet:itemDetailsList)
+				{
+					
+					JSONObject jsonObjiteDetail=new JSONObject();
+					jsonObjiteDetail.put("item_detail_id", idet.getItemDetailId());
+					//jsonObjiteDetail.put(, idet.getItem());
+					jsonObjiteDetail.put("mrp", idet.getMrp());
+					jsonObjiteDetail.put("sell_price", idet.getSalesPrice());
+					jsonObjiteDetail.put("weight", idet.getWeight());
+					jsonObjiteDetail.put("discount", idet.getDiscount());
+					//jsonObjiteDetail.put(, idet.getItemSize());
+					jsonObjiteDetail.put("color", idet.getColor());
+					jsonObjiteDetail.put("sleave_type", idet.getSleeveType());
+					jsonObjiteDetail.put("fabric", idet.getFabric());
+					jsonObjiteDetail.put("pattern", idet.getPattern());
+					jsonObjiteDetail.put("image1", idet.getImage1());
+					jsonObjiteDetail.put("image2", idet.getImage2());
+					jsonObjiteDetail.put("image3", idet.getImage3());
+					jsonObjiteDetail.put("image4", idet.getImage4());
+					jsonObjiteDetail.put("image5", idet.getImage5());
+					parentObject.put("item_detail", jsonObjiteDetail);
+					
+				}
+				
+				List<FacebookLike> fblist= items.getFacebookLikes();
+				if(fblist.size()>0){
+					for(FacebookLike fb:fblist){
+						JSONObject jFb=new JSONObject();
+						jFb.put("fbid", fb.getUserId());
+						jFb.put("likecount", fb.getFacebookLike());
+						parentObject.put("facebook", jFb);
+					}	
+				}
+				
+				List<Rating> rt= items.getRatings();
+				if(rt.size()>0){
+					for(Rating r:rt){
+						JSONObject object=new JSONObject();
+						object.put("rating_val", r.getRateValue());
+						parentObject.put("rating_dtls", object);
+					}	
+				}
+				jsonArrayOfItemById.put(parentObject);
+			}	
+		}catch(Exception e){
+			e.printStackTrace();
 		}
-		
-		
+		finally{
+			session.close();
+		}
+		return jsonArrayOfItemById;
 	}
 	
 

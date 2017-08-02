@@ -37,14 +37,9 @@ k+
                                 <div class="col-md-9">
                                     <select class="form-control" id="l13" name="itemType">
                                        
-                                       
-									<option >Select Item</option>
-										  <c:forEach items="${itemTypes}" var="type">
-										    <option value="${type}" label="${type}">  
-										    </option>
-										  </c:forEach>
-
-                                    
+                                       <%for(ItemType i: itemTypes){ %>
+									<option value="<%=i.getItemName() %>" ><%=i.getItemName()%></option>
+									<%} %>
                                 </div>
                             </div>
 				</div>
