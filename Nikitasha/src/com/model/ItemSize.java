@@ -19,9 +19,7 @@ public class ItemSize implements Serializable {
 	@Column(name="ITEM_SIZE_ID")
 	private String itemSizeId;
 
-	@Column(name="ITEM_DETAIL_ID")
-	private String itemDetailId;
-
+	
 	@Column(name="ITEM_SIZE_NAME")
 	private String itemSizeName;
 
@@ -40,13 +38,7 @@ public class ItemSize implements Serializable {
 		this.itemSizeId = itemSizeId;
 	}
 
-	public String getItemDetailId() {
-		return this.itemDetailId;
-	}
-
-	public void setItemDetailId(String itemDetailId) {
-		this.itemDetailId = itemDetailId;
-	}
+	
 
 	public String getItemSizeName() {
 		return this.itemSizeName;

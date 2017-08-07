@@ -1,6 +1,8 @@
 package com.model;
 
 import java.io.Serializable;
+import java.util.List;
+
 import javax.persistence.*;
 
 
@@ -22,6 +24,19 @@ public class User implements Serializable {
 
 	@Column(name="USER_NAME")
 	private String userName;
+
+	@OneToMany(mappedBy="userId")
+	private List<FacebookLike> facebookLikeList;
+	
+	
+	
+	public List<FacebookLike> getFacebookLikeList() {
+		return facebookLikeList;
+	}
+
+	public void setFacebookLikeList(List<FacebookLike> facebookLikeList) {
+		this.facebookLikeList = facebookLikeList;
+	}
 
 	public User() {
 	}

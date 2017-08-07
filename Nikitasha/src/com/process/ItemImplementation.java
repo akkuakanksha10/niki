@@ -1,6 +1,8 @@
 package com.process;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -19,6 +21,7 @@ import com.model.ItemSize;
 import com.model.ItemType;
 import com.model.Rating;
 import com.model.Seq;
+import com.model.User;
 
 public class ItemImplementation extends RestFactory{
 	
@@ -122,7 +125,7 @@ public class ItemImplementation extends RestFactory{
 	/*
 	 * 
 	 */
-	public JSONArray findItemTypeById(String id){
+	public JSONArray findJsonArrayItemTypeById(String id){
 		JSONArray jsonArrayOfItemById=new JSONArray();
 		JSONObject parentObject=new JSONObject();
 		
@@ -152,7 +155,10 @@ public class ItemImplementation extends RestFactory{
 					jsonObjiteDetail.put("sell_price", idet.getSalesPrice());
 					jsonObjiteDetail.put("weight", idet.getWeight());
 					jsonObjiteDetail.put("discount", idet.getDiscount());
-					//jsonObjiteDetail.put(, idet.getItemSize());
+					ItemSize itemSize =idet.getItemSize();
+					JSONObject jItemSize=new JSONObject();
+					jItemSize.put("size_name", itemSize.getItemSizeName());
+					parentObject.put("size_dtls",jItemSize);
 					jsonObjiteDetail.put("color", idet.getColor());
 					jsonObjiteDetail.put("sleave_type", idet.getSleeveType());
 					jsonObjiteDetail.put("fabric", idet.getFabric());
@@ -162,15 +168,20 @@ public class ItemImplementation extends RestFactory{
 					jsonObjiteDetail.put("image3", idet.getImage3());
 					jsonObjiteDetail.put("image4", idet.getImage4());
 					jsonObjiteDetail.put("image5", idet.getImage5());
-					parentObject.put("item_detail", jsonObjiteDetail);
-					
+					parentObject.put("item_detail", jsonObjiteDetail);	
 				}
-				
 				List<FacebookLike> fblist= items.getFacebookLikes();
 				if(fblist.size()>0){
 					for(FacebookLike fb:fblist){
 						JSONObject jFb=new JSONObject();
-						jFb.put("fbid", fb.getUserId());
+						User user=new User();
+						user=fb.getUserId();
+						JSONObject userjson=new JSONObject();
+						userjson.put("user_id",user.getUserId());
+						userjson.put("user_mail",user.getEmailId());
+						userjson.put("user_name",user.getUserName());
+						
+						jFb.put("user_id", userjson);
 						jFb.put("likecount", fb.getFacebookLike());
 						parentObject.put("facebook", jFb);
 					}	
@@ -195,7 +206,15 @@ public class ItemImplementation extends RestFactory{
 		return jsonArrayOfItemById;
 	}
 	
-
+/*
+ * methos is only for Testing purposes
+ */
+	public void mapTest(){
+		
+		Map<ItemDetail, ItemDetail> map=new HashMap<ItemDetail, ItemDetail>();
+	
+		
+	}
 	public List<ItemDetail> getItemDetails(){
 		try {
 			List<ItemDetail> itemDetailList=(List<ItemDetail>)getObjectList(ItemDetail.class);
@@ -221,8 +240,6 @@ public class ItemImplementation extends RestFactory{
 			e.printStackTrace();
 			return null;
 		}
-		
-		
 	}
 	public ItemSize updateItemSize(ItemSize itemSize){
 		try {
@@ -232,8 +249,6 @@ public class ItemImplementation extends RestFactory{
 			e.printStackTrace();
 			return null;
 		}
-		
-		
 	}
 	public List<ItemSize> getItemSize(){
 		try {

@@ -86,7 +86,7 @@ public String getItemCategory(){
 @Produces(javax.ws.rs.core.MediaType.TEXT_PLAIN)
 public String getItemDetails(@QueryParam("itemtype_id") String itemtype_id){
 	ItemImplementation implementation=new ItemImplementation();
-	JSONArray jsonArray=implementation.findItemTypeById(itemtype_id);
+	JSONArray jsonArray=implementation.findJsonArrayItemTypeById(itemtype_id);
 	return jsonArray.toString();
 }
 }

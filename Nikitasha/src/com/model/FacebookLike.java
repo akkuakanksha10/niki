@@ -21,8 +21,9 @@ public class FacebookLike implements Serializable {
 	@Column(name="FACEBOOK_LIKE")
 	private int facebookLike;
 
-	@Column(name="USER_ID")
-	private String userId;
+	@ManyToOne
+	@JoinColumn(name="USER_ID")
+	private User userId;
 
 	//bi-directional many-to-one association to Item
 	@ManyToOne
@@ -48,11 +49,11 @@ public class FacebookLike implements Serializable {
 		this.facebookLike = facebookLike;
 	}
 
-	public String getUserId() {
+	public User getUserId() {
 		return this.userId;
 	}
 
-	public void setUserId(String userId) {
+	public void setUserId(User userId) {
 		this.userId = userId;
 	}
 
