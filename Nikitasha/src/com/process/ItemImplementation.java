@@ -21,6 +21,7 @@ import com.model.ItemSize;
 import com.model.ItemType;
 import com.model.Rating;
 import com.model.Seq;
+import com.model.Uom;
 import com.model.User;
 
 public class ItemImplementation extends RestFactory{
@@ -143,6 +144,13 @@ public class ItemImplementation extends RestFactory{
 			{
 				JSONObject jsonItem=new JSONObject();
 				jsonItem.put("item_name", items.getName());	
+				jsonItem.put("item_id",items.getItemId());
+				Uom uom=items.getUom();
+				JSONObject jUom=new JSONObject();
+				jUom.put("uom_id",uom.getUomName());
+				jUom.put("uom_name", uom.getUomName());
+				jsonItem.put("uom", jUom);
+				
 				List<ItemDetail> itemDetailsList=items.getItemDetails();
 				
 				for(ItemDetail idet:itemDetailsList)
@@ -155,10 +163,14 @@ public class ItemImplementation extends RestFactory{
 					jsonObjiteDetail.put("sell_price", idet.getSalesPrice());
 					jsonObjiteDetail.put("weight", idet.getWeight());
 					jsonObjiteDetail.put("discount", idet.getDiscount());
+					
 					ItemSize itemSize =idet.getItemSize();
 					JSONObject jItemSize=new JSONObject();
-					jItemSize.put("size_name", itemSize.getItemSizeName());
-					parentObject.put("size_dtls",jItemSize);
+					jItemSize.put("item_size_id",itemSize.getItemSizeId());
+					jItemSize.put("size_name",itemSize.getItemSizeName());
+					jsonObjiteDetail.put("size_dtls",jItemSize);
+					
+					
 					jsonObjiteDetail.put("color", idet.getColor());
 					jsonObjiteDetail.put("sleave_type", idet.getSleeveType());
 					jsonObjiteDetail.put("fabric", idet.getFabric());
@@ -168,7 +180,8 @@ public class ItemImplementation extends RestFactory{
 					jsonObjiteDetail.put("image3", idet.getImage3());
 					jsonObjiteDetail.put("image4", idet.getImage4());
 					jsonObjiteDetail.put("image5", idet.getImage5());
-					parentObject.put("item_detail", jsonObjiteDetail);	
+					jsonItem.put("item_details",jsonObjiteDetail );
+						
 				}
 				List<FacebookLike> fblist= items.getFacebookLikes();
 				if(fblist.size()>0){
@@ -183,7 +196,7 @@ public class ItemImplementation extends RestFactory{
 						
 						jFb.put("user_id", userjson);
 						jFb.put("likecount", fb.getFacebookLike());
-						parentObject.put("facebook", jFb);
+						jsonItem.put("facebook", jFb);
 					}	
 				}
 				
@@ -192,10 +205,10 @@ public class ItemImplementation extends RestFactory{
 					for(Rating r:rt){
 						JSONObject object=new JSONObject();
 						object.put("rating_val", r.getRateValue());
-						parentObject.put("rating_dtls", object);
+						jsonItem.put("rating_dtls", object);
 					}	
 				}
-				jsonArrayOfItemById.put(parentObject);
+				jsonArrayOfItemById.put(jsonItem);
 			}	
 		}catch(Exception e){
 			e.printStackTrace();
