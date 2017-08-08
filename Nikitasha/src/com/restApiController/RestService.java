@@ -1,6 +1,9 @@
 package com.restApiController;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.jar.JarException;
 
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -11,8 +14,10 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.google.gson.JsonArray;
 import com.model.Item;
 import com.model.ItemType;
 import com.process.ItemImplementation;
@@ -67,15 +72,27 @@ public String saveItemType(@FormParam("itemType") String itemType){
  *Method to get Item category with image pathg 
  */
 @GET
-@Path("/getItemCategory")
+@Path("/getItemType")
 @Produces(javax.ws.rs.core.MediaType.TEXT_PLAIN)
-public String getItemCategory(){
+public String getItemCategory() throws JSONException{
 	
 	ItemImplementation implementation=new ItemImplementation();
-	Object o= implementation.getItemCategory();
+	List<ItemType> itemTypesList= implementation.getItemTypes();
+	JSONArray itemtypeJson=new JSONArray();
+	JSONObject jsonObject=new JSONObject();
 	
-	
-	return o.toString();
+	for(ItemType i:itemTypesList){
+		Map<String,String> itemmap=new HashMap<String, String>();
+		try{
+			itemmap.put("item_type_name", i.getItemName());
+			itemmap.put("item_type_id", i.getItemTypeId());
+			
+			itemtypeJson.put(itemmap);	
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	return itemtypeJson.toString();
 
 }
 /*

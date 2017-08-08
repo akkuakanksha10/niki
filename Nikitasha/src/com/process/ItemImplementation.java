@@ -147,7 +147,7 @@ public class ItemImplementation extends RestFactory{
 				jsonItem.put("item_id",items.getItemId());
 				Uom uom=items.getUom();
 				JSONObject jUom=new JSONObject();
-				jUom.put("uom_id",uom.getUomName());
+				jUom.put("uom_id",uom.getUomId());
 				jUom.put("uom_name", uom.getUomName());
 				jsonItem.put("uom", jUom);
 				
@@ -205,6 +205,7 @@ public class ItemImplementation extends RestFactory{
 					for(Rating r:rt){
 						JSONObject object=new JSONObject();
 						object.put("rating_val", r.getRateValue());
+						object.put("rating_id", r.getRateId());
 						jsonItem.put("rating_dtls", object);
 					}	
 				}
@@ -219,15 +220,10 @@ public class ItemImplementation extends RestFactory{
 		return jsonArrayOfItemById;
 	}
 	
-/*
- * methos is only for Testing purposes
- */
-	public void mapTest(){
-		
-		Map<ItemDetail, ItemDetail> map=new HashMap<ItemDetail, ItemDetail>();
+
 	
-		
-	}
+	
+
 	public List<ItemDetail> getItemDetails(){
 		try {
 			List<ItemDetail> itemDetailList=(List<ItemDetail>)getObjectList(ItemDetail.class);
