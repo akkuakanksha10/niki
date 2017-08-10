@@ -80,8 +80,6 @@ public class ItemImplementation extends RestFactory{
 			e.printStackTrace();
 			return null;
 		}
-		
-		
 	}
 	
 
